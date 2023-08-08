@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AddPageRoute("/Home", "");
+    options.Conventions.AddPageRoute("/Home/Index", "");
 });
 
 var app = builder.Build();
