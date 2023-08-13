@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CourseManagement.Pages.Home.MarkReport
+namespace CourseManagement.Pages.Login
 {
     public class IndexModel : PageModel
     {
