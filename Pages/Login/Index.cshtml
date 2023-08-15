@@ -3,7 +3,26 @@
 @{
 }
 <h1>Login</h1>
-<form>
-    <label>Email</label>
-    
-</form>
+<div>
+    <form method="post">
+        <div class="d-flex p-2">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="my-email@gmail.com" />
+        </div>
+        <div class="d-flex p-2">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="RandomPassword@123" />
+        </div>
+        <div class="d-flex p-2">
+            <label>Login as:</label>
+            <select name="role">
+                <option value=@Model.StudentRole>Student</option>
+                <option value=@Model.TeacherRole>Teacher</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Login"/>
+        </div>
+       
+    </form>
+</div>

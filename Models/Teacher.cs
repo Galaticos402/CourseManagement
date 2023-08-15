@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CourseManagement.Models
 {
-    public partial class Teacher
+    public partial class Teacher : User
     {
         public Teacher()
         {
@@ -14,7 +14,6 @@ namespace CourseManagement.Models
 
         public int Id { get; set; }
         public string TeacherName { get; set; } = null!;
-        public string Email { get; set; } = null!;
         public int? Phone { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
