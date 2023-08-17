@@ -15,7 +15,6 @@ namespace CourseManagement.Models
         public string StudentName { get; set; } = null!;
         public int Phone { get; set; }
         public int MajorId { get; set; }
-        public string Role = "Student";
 
         public virtual Major Major { get; set; } = null!;
         public virtual ICollection<Attendance> Attendances { get; set; }

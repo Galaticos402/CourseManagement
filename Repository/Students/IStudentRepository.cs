@@ -7,6 +7,7 @@ namespace CourseManagement.Repository.StudentsRepo
     public interface IStudentRepository
     {
         Student? Get(int studentId);
+        Student? GetByEmailAndPassword(string email, string password);
         Task<HttpStatusCode> Create(Student student);
         Task<HttpStatusCode> Update(Student student);
         Task<HttpStatusCode> Delete(int studentId);

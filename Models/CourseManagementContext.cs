@@ -26,6 +26,7 @@ namespace CourseManagement.Models
         public virtual DbSet<StudentInCourse> StudentInCourses { get; set; } = null!;
         public virtual DbSet<Subject> Subjects { get; set; } = null!;
         public virtual DbSet<Teacher> Teachers { get; set; } = null!;
+        public virtual DbSet<Admin> Admins { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -196,6 +197,14 @@ namespace CourseManagement.Models
                 entity.Property(e => e.TeacherName)
                     .HasMaxLength(225)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Admin>(entity =>
+            {
+                entity.ToTable("Admin");
+                entity.Property(e => e.Email)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,7 +1,10 @@
 using AutoMapper;
 using CourseManagement.Profiles;
+using CourseManagement.Repository.Admins;
+using CourseManagement.Repository.Semesters;
 using CourseManagement.Repository.Students;
 using CourseManagement.Repository.StudentsRepo;
+using CourseManagement.Repository.Teachers;
 using CourseManagement.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,11 +17,14 @@ var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional
 // Dependency Injection
 builder.Services.AddTransient<IJWTService, JWTService>();
 builder.Services.AddTransient<IStudentRepository, StudentRepository>();
+builder.Services.AddTransient<ITeacherRepository, TeacherRepository>();
+builder.Services.AddTransient<IAdminRepository, AdminRepository>();
+builder.Services.AddTransient<ISemesterRepository, SemesterRepository>();
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AddPageRoute("/Login/Index", "");
+    options.Conventions.AddPageRoute("/Admin/Index", "");
 });
 
 // Add Mapper Configuration

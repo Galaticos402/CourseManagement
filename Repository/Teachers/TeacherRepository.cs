@@ -1,39 +1,38 @@
-﻿using CourseManagement.DTOs;
-using CourseManagement.Models;
-using CourseManagement.Repository.StudentsRepo;
+﻿using CourseManagement.Models;
 using System.Net;
 
-namespace CourseManagement.Repository.Students
+namespace CourseManagement.Repository.Teachers
 {
-    public class StudentRepository : IStudentRepository
+    public class TeacherRepository : ITeacherRepository
     {
-        public async Task<HttpStatusCode> Create(Student student)
+        public async Task<HttpStatusCode> Create(Teacher teacher)
         {
             using (var dbContext = new CourseManagementContext())
             {
                 try
                 {
-                    dbContext.Students.Add(student);
+                    dbContext.Teachers.Add(teacher);
                     await dbContext.SaveChangesAsync();
                     return HttpStatusCode.Created;
-                }catch (Exception ex) 
-                { 
+                }
+                catch (Exception e)
+                {
                     return HttpStatusCode.BadRequest;
                 }
 
             }
         }
 
-        public async Task<HttpStatusCode> Delete(int studentId)
+        public async Task<HttpStatusCode> Delete(int teacherId)
         {
             using (var dbContext = new CourseManagementContext())
             {
                 try
                 {
-                    var student = Get(studentId);
-                    if(student != null)
+                    var teacher = Get(teacherId);
+                    if (teacher != null)
                     {
-                        dbContext.Students.Remove(student);
+                        dbContext.Teachers.Remove(teacher);
                         await dbContext.SaveChangesAsync();
                         return HttpStatusCode.OK;
                     }
@@ -41,39 +40,40 @@ namespace CourseManagement.Repository.Students
                     {
                         return HttpStatusCode.BadRequest;
                     }
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     return HttpStatusCode.BadGateway;
                 }
             }
         }
 
-        public Student? Get(int studentId)
-        {
-            using(var dbContext = new CourseManagementContext())
-            {
-                return dbContext.Students.Find(studentId);
-            }
-        }
-
-        public Student? GetByEmailAndPassword(string email, string password)
+        public Teacher? Get(int teacherId)
         {
             using (var dbContext = new CourseManagementContext())
             {
-                return dbContext.Students.Where(std => std.Email.Equals(email) && std.Pwd.Equals(password)).FirstOrDefault();
+                return dbContext.Teachers.Find(teacherId);
             }
         }
 
-        public async Task<HttpStatusCode> Update(Student student)
+        public Teacher? GetByEmailAndPassword(string email, string password)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return dbContext.Teachers.Where(teacher => teacher.Email.Equals(email) && teacher.Pwd.Equals(password)).FirstOrDefault();
+            }
+        }
+
+        public async Task<HttpStatusCode> Update(Teacher teacher)
         {
             using (var dbContext = new CourseManagementContext())
             {
                 try
                 {
-                    var existedStudent = Get(student.Id);
-                    if (existedStudent != null)
+                    var existedTeacher = Get(teacher.Id);
+                    if (existedTeacher != null)
                     {
-                        dbContext.Entry<Student>(existedStudent).CurrentValues.SetValues(student);
+                        dbContext.Entry<Teacher>(existedTeacher).CurrentValues.SetValues(teacher);
                         await dbContext.SaveChangesAsync();
                         return HttpStatusCode.OK;
                     }

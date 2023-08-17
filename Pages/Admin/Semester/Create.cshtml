@@ -1,0 +1,23 @@
+﻿@page
+@model CourseManagement.Pages.Admin.Semester.CreateModel
+@{
+}
+<<h1>Create Semester</h1>
+<form method="post">
+    <div class="d-flex p-2">
+        <label>Semester Name: </label>
+        <input type="text" name="SemesterName" />
+    </div>
+    <div class="d-flex p-2">
+        <label>Start Date: </label>
+        <input type="date" name="StartDate" />
+    </div>
+    <div class="d-flex p-2">
+        <label>End Date:</label>
+        <input type="date" name="EndDate" />
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+
+</form>

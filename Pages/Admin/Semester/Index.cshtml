@@ -1,0 +1,28 @@
+﻿@page
+@model CourseManagement.Pages.Admin.Semester.IndexModel
+@{
+}
+@{
+    var i = 1;
+}
+<h1>Semester</h1>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>No</th>
+        <th>Semester</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+    </tr>
+    @foreach(var semester in Model.Semesters)
+    {
+        <tr>
+            <td>@i</td>
+            <td>@Html.DisplayFor(model => semester.SemesterName)</td>
+            <td>@Html.DisplayFor(model => semester.StartDate)</td>
+            <td>@Html.DisplayFor(model => semester.EndDate)</td>
+        </tr>
+        i++;
+    }
+    <a  href="/Admin/Semester/Create">Create Semester</a>
+    
+</table>

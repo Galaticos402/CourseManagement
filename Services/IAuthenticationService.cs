@@ -4,6 +4,6 @@ namespace CourseManagement.Services
 {
     public interface IAuthenticationService
     {
-        bool AuthenticateUser(User user);
+        bool AuthenticateUser(User user, string role);
     }
 }
