@@ -1,0 +1,49 @@
+﻿@page
+@model CourseManagement.Pages.Admin.Student.IndexModel
+@{
+}
+@{
+    var i = 1;
+}
+<h1>Student Management</h1>
+<div class="mt-2 mb-2">
+    <a class="btn btn-warning" href="/Admin/Student/Create">Add new student</a>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th class="align-middle text-center">No</th>
+        <th class="align-middle text-center">Student's Name</th>
+        <th class="align-middle text-center">Email</th>
+        <th class="align-middle text-center">Phone</th>
+        <th class="align-middle text-center">Major</th>
+        <th class="align-middle text-center">###</th>
+    </tr>
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td class="align-middle text-center">@i</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => student.StudentName)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => student.Email)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => student.Phone)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => student.Major.MajorName)</td>
+            <td>
+                <div class="d-grid text-center">
+                    
+                    <div class="p-2">
+                        <a class="btn btn-primary" href="/Admin/Student/Update?id=@student.Id">Update</a>
+                    </div>
+    
+                    
+                    <form method="post">
+                        <input type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@student.Id" value="Remove" onclick="return confirm('Are you sure you want to delete this?')" />
+                    </form>
+                    
+               </div>
+            </td>
+        </tr>
+        i++;
+    }
+   
+    
+
+</table>

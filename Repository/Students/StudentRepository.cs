@@ -1,12 +1,15 @@
 ﻿using CourseManagement.DTOs;
 using CourseManagement.Models;
 using CourseManagement.Repository.StudentsRepo;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace CourseManagement.Repository.Students
 {
     public class StudentRepository : IStudentRepository
     {
+        private readonly int itemPerPage = 10;
         public async Task<HttpStatusCode> Create(Student student)
         {
             using (var dbContext = new CourseManagementContext())
@@ -30,7 +33,7 @@ namespace CourseManagement.Repository.Students
             {
                 try
                 {
-                    var student = Get(studentId);
+                    var student = await Get(studentId);
                     if(student != null)
                     {
                         dbContext.Students.Remove(student);
@@ -48,11 +51,11 @@ namespace CourseManagement.Repository.Students
             }
         }
 
-        public Student? Get(int studentId)
+        public async Task<Student?> Get(int studentId)
         {
             using(var dbContext = new CourseManagementContext())
             {
-                return dbContext.Students.Find(studentId);
+                return await dbContext.Students.FindAsync(studentId);
             }
         }
 
@@ -64,16 +67,25 @@ namespace CourseManagement.Repository.Students
             }
         }
 
+        public async Task<IEnumerable<Student>> GetByPageNumber(int page)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Students.Skip(itemPerPage * (page - 1)).Include(std => std.Major).ToListAsync();
+            }
+        }
+
         public async Task<HttpStatusCode> Update(Student student)
         {
             using (var dbContext = new CourseManagementContext())
             {
                 try
                 {
-                    var existedStudent = Get(student.Id);
+                    var existedStudent = await Get(student.Id);
                     if (existedStudent != null)
                     {
                         dbContext.Entry<Student>(existedStudent).CurrentValues.SetValues(student);
+                        dbContext.Entry(existedStudent).State = EntityState.Modified;
                         await dbContext.SaveChangesAsync();
                         return HttpStatusCode.OK;
                     }
