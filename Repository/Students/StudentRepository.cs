@@ -71,7 +71,7 @@ namespace CourseManagement.Repository.Students
         {
             using (var dbContext = new CourseManagementContext())
             {
-                return await dbContext.Students.Skip(itemPerPage * (page - 1)).Include(std => std.Major).ToListAsync();
+                return await dbContext.Students.Skip(itemPerPage * (page - 1)).Take(itemPerPage).Include(std => std.Major).ToListAsync();
             }
         }
 

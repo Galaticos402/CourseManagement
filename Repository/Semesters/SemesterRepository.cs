@@ -29,7 +29,7 @@ namespace CourseManagement.Repository.Semesters
         {
             using (var dbContext = new CourseManagementContext())
             {
-                return await dbContext.Semesters.Skip(itemPerPage * (page - 1)).ToListAsync();
+                return await dbContext.Semesters.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToListAsync();
             }
         }
     }

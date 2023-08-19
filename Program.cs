@@ -1,6 +1,7 @@
 using AutoMapper;
 using CourseManagement.Profiles;
 using CourseManagement.Repository.Admins;
+using CourseManagement.Repository.Courses;
 using CourseManagement.Repository.Majors;
 using CourseManagement.Repository.Semesters;
 using CourseManagement.Repository.Students;
@@ -22,6 +23,7 @@ builder.Services.AddTransient<ITeacherRepository, TeacherRepository>();
 builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<ISemesterRepository, SemesterRepository>();
 builder.Services.AddTransient<IMajorRepository, MajorRepository>();
+builder.Services.AddTransient<ICourseRepository, CourseRepository>();
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>

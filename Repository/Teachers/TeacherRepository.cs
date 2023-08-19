@@ -1,10 +1,12 @@
 ﻿using CourseManagement.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace CourseManagement.Repository.Teachers
 {
     public class TeacherRepository : ITeacherRepository
     {
+        private readonly int itemPerPage = 10;
         public async Task<HttpStatusCode> Create(Teacher teacher)
         {
             using (var dbContext = new CourseManagementContext())
@@ -63,7 +65,13 @@ namespace CourseManagement.Repository.Teachers
                 return dbContext.Teachers.Where(teacher => teacher.Email.Equals(email) && teacher.Pwd.Equals(password)).FirstOrDefault();
             }
         }
-
+        public async Task<IEnumerable<Teacher>> GetByPageNumber(int page)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Teachers.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToListAsync();
+            }
+        }
         public async Task<HttpStatusCode> Update(Teacher teacher)
         {
             using (var dbContext = new CourseManagementContext())
