@@ -1,4 +1,5 @@
 ﻿using CourseManagement.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -31,7 +32,7 @@ namespace CourseManagement.Repository.Teachers
             {
                 try
                 {
-                    var teacher = Get(teacherId);
+                    var teacher = await Get(teacherId);
                     if (teacher != null)
                     {
                         dbContext.Teachers.Remove(teacher);
@@ -50,11 +51,11 @@ namespace CourseManagement.Repository.Teachers
             }
         }
 
-        public Teacher? Get(int teacherId)
+        public async Task<Teacher?> Get(int teacherId)
         {
             using (var dbContext = new CourseManagementContext())
             {
-                return dbContext.Teachers.Find(teacherId);
+                return await dbContext.Teachers.FindAsync(teacherId);
             }
         }
 
@@ -65,11 +66,20 @@ namespace CourseManagement.Repository.Teachers
                 return dbContext.Teachers.Where(teacher => teacher.Email.Equals(email) && teacher.Pwd.Equals(password)).FirstOrDefault();
             }
         }
+
+        public async Task<IEnumerable<Teacher>> GetByMajorId(int majorId)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Teachers.Where(teacher => teacher.MajorId == majorId).ToListAsync();
+            }
+        }
+
         public async Task<IEnumerable<Teacher>> GetByPageNumber(int page)
         {
             using (var dbContext = new CourseManagementContext())
             {
-                return await dbContext.Teachers.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToListAsync();
+                return await dbContext.Teachers.Skip(itemPerPage * (page - 1)).Include(t => t.Major).Take(itemPerPage).ToListAsync();
             }
         }
         public async Task<HttpStatusCode> Update(Teacher teacher)
@@ -78,10 +88,11 @@ namespace CourseManagement.Repository.Teachers
             {
                 try
                 {
-                    var existedTeacher = Get(teacher.Id);
+                    var existedTeacher = await Get(teacher.Id);
                     if (existedTeacher != null)
                     {
                         dbContext.Entry<Teacher>(existedTeacher).CurrentValues.SetValues(teacher);
+                        dbContext.Entry(existedTeacher).State = EntityState.Modified;
                         await dbContext.SaveChangesAsync();
                         return HttpStatusCode.OK;
                     }

@@ -8,7 +8,7 @@ namespace CourseManagement.Pages.Admin.Semester
     public class IndexModel : PageModel
     {
         public readonly ISemesterRepository semesterRepository;
-        public IEnumerable<CourseManagement.Models.Semester> Semesters { get; set; } = new List<CourseManagement.Models.Semester>();
+        public IEnumerable<Models.Semester> Semesters { get; set; } = new List<Models.Semester>();
         public IndexModel(ISemesterRepository semesterRepository) {
             this.semesterRepository = semesterRepository;
         }

@@ -180,10 +180,7 @@ namespace CourseManagement.Models
                     .HasForeignKey(d => d.MajorId)
                     .HasConstraintName("fk_subject_major_id");
 
-                entity.HasOne(d => d.Teacher)
-                    .WithMany(p => p.Subjects)
-                    .HasForeignKey(d => d.TeacherId)
-                    .HasConstraintName("fk_subject_teacher_id");
+               
             });
 
             modelBuilder.Entity<Teacher>(entity =>
@@ -197,6 +194,11 @@ namespace CourseManagement.Models
                 entity.Property(e => e.TeacherName)
                     .HasMaxLength(225)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Major)
+                   .WithMany(p => p.Teachers)
+                   .HasForeignKey(d => d.MajorId)
+                   .HasConstraintName("fk_teacher_major_id");
             });
 
             modelBuilder.Entity<Admin>(entity =>

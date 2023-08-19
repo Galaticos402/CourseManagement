@@ -9,6 +9,7 @@ namespace CourseManagement.Models
         {
             Students = new HashSet<Student>();
             Subjects = new HashSet<Subject>();
+            Teachers = new HashSet<Teacher>();
         }
 
         public int Id { get; set; }
@@ -16,5 +17,6 @@ namespace CourseManagement.Models
 
         public virtual ICollection<Student> Students { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
+        public virtual ICollection<Teacher> Teachers { get; set; }
     }
 }

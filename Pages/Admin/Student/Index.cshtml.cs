@@ -17,9 +17,10 @@ namespace CourseManagement.Pages.Admin.Student
         {
             Students = await studentRepository.GetByPageNumber(page);
         }
-        public async Task OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDelete(int id)
         {
             await studentRepository.Delete(id);
+            return RedirectToAction("Index");
         }
         
     }

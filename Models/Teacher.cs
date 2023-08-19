@@ -9,15 +9,24 @@ namespace CourseManagement.Models
         {
             Courses = new HashSet<Course>();
             Sessions = new HashSet<Session>();
-            Subjects = new HashSet<Subject>();
+            Major = new Major();
         }
+        public Teacher(string teacherName, string email, string password, string phone, int majorId)
+        {
+            TeacherName = teacherName;
+            Phone = phone;
+            Email = email;
+            Pwd = password;
+            MajorId = majorId;
 
+        }
         public int Id { get; set; }
         public string TeacherName { get; set; } = null!;
-        public int? Phone { get; set; }
+        public string? Phone { get; set; }
+        public int MajorId { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
-        public virtual ICollection<Subject> Subjects { get; set; }
+        public virtual Major Major { get; set; }
     }
 }

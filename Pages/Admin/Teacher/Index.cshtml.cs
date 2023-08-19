@@ -1,3 +1,5 @@
+using CourseManagement.Repository.Students;
+using CourseManagement.Repository.Teachers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,8 +7,20 @@ namespace CourseManagement.Pages.Admin.Teacher
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        public IEnumerable<Models.Teacher> Teachers = new List<Models.Teacher>();
+        public readonly ITeacherRepository teacherRepository;
+        public IndexModel(ITeacherRepository teacherRepository)
         {
+            this.teacherRepository = teacherRepository;
+        }
+
+        public async Task OnGet(int page = 1)
+        {
+            Teachers = await teacherRepository.GetByPageNumber(page);
+        }
+        public async Task OnPostDelete(int id)
+        {
+            await teacherRepository.Delete(id);
         }
     }
 }

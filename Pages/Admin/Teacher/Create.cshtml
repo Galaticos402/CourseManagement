@@ -1,0 +1,32 @@
+﻿@page
+@model CourseManagement.Pages.Admin.Teacher.CreateModel
+@{
+}
+<h1>Create Student</h1>
+<form method="post">
+    <div class="d-flex p-2">
+        <label>Teacher's Name: </label>
+        <input type="text" name="TeacherName" />
+    </div>
+    <div class="d-flex p-2">
+        <label>Email: </label>
+        <input type="email" name="Email" />
+    </div>
+    <div class="d-flex p-2">
+        <label>Phone</label>
+        <input type="text" name="Phone" />
+    </div>
+    <div class="d-flex p-2">
+        <label>Major: </label>
+        <select name="MajorId">
+            @foreach (var major in Model.Majors)
+            {
+                <option value="@major.Id">@major.MajorName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+
+</form>

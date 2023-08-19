@@ -6,6 +6,7 @@ using CourseManagement.Repository.Majors;
 using CourseManagement.Repository.Semesters;
 using CourseManagement.Repository.Students;
 using CourseManagement.Repository.StudentsRepo;
+using CourseManagement.Repository.Subjects;
 using CourseManagement.Repository.Teachers;
 using CourseManagement.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,7 +25,7 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<ISemesterRepository, SemesterRepository>();
 builder.Services.AddTransient<IMajorRepository, MajorRepository>();
 builder.Services.AddTransient<ICourseRepository, CourseRepository>();
-
+builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
