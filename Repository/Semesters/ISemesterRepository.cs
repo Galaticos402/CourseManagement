@@ -7,6 +7,7 @@ namespace CourseManagement.Repository.Semesters
     {
         Task<IEnumerable<Semester>> GetSemestersByPageNumber(int page);
         Task<IEnumerable<Semester>> GetAll();
+        Task<Semester> GetById(int semesterId);
         Task<HttpStatusCode> Create(Semester semester);
     }
 }

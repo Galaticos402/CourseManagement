@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace CourseManagement.Utility
@@ -6,6 +7,26 @@ namespace CourseManagement.Utility
     public class UtilityService
     {
         private static readonly Random _random = new Random();
+        public static List<DateTime> GetDatesBetweenTwoDates(DateTime startDate, DateTime endDate, int dayOfWeek)
+        {
+            List<DateTime> dates = new List<DateTime>();
+            int startWeekNum = GetWeekNum(startDate);
+            int endWeekNum = GetWeekNum(endDate);
+            DateTime d = startDate.AddDays(dayOfWeek - 2);
+            dates.Add(d);
+            for(int i = startWeekNum + 1; i <= endWeekNum; i++) {
+                d = d.AddDays(7);
+                dates.Add(d);
+            }
+            return dates;
+        }
+        private static int GetWeekNum(DateTime d)
+        {
+            CultureInfo cul = CultureInfo.CurrentCulture;
+            return cul.Calendar.GetWeekOfYear(d,
+                                                     CalendarWeekRule.FirstDay,
+                                                     DayOfWeek.Monday);
+        }
         public static string GenerateRandomPassword()
         {
             var passwordBuilder = new StringBuilder();

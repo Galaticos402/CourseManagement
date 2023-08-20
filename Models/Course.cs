@@ -11,6 +11,14 @@ namespace CourseManagement.Models
             StudentInCourses = new HashSet<StudentInCourse>();
         }
 
+        public Course(string courseName, int teacherId, int semesterId, int subjectId)
+        {
+            CourseName = courseName;
+            TeacherId = teacherId;
+            SemesterId = semesterId;
+            SubjectId = subjectId;
+        }
+
         public int Id { get; set; }
         public string CourseName { get; set; } = null!;
         public int? TeacherId { get; set; }

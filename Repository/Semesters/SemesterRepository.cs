@@ -34,6 +34,14 @@ namespace CourseManagement.Repository.Semesters
             }
         }
 
+        public async Task<Semester> GetById(int semesterId)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Semesters.FindAsync(semesterId);
+            }
+        }
+
         public async Task<IEnumerable<Semester>> GetSemestersByPageNumber(int page)
         {
             using (var dbContext = new CourseManagementContext())

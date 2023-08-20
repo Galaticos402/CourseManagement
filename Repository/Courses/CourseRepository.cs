@@ -28,5 +28,23 @@ namespace CourseManagement.Repository.Courses
                 return await dbContext.Courses.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToListAsync();
             }
         }
+
+        public async Task<int> Create(Course course)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                try
+                {
+                    dbContext.Courses.Add(course);
+                    await dbContext.SaveChangesAsync();
+                    return course.Id;
+                }
+                catch (Exception ex)
+                {
+                    return -1;
+                }
+
+            }
+        }
     }
 }
