@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseManagement.Models
 {
@@ -20,9 +21,13 @@ namespace CourseManagement.Models
         }
 
         public int Id { get; set; }
+        [Required, MinLength(1, ErrorMessage = "Course name could not be empty")]
         public string CourseName { get; set; } = null!;
+        [Required]
         public int? TeacherId { get; set; }
+        [Required]
         public int? SemesterId { get; set; }
+        [Required]
         public int? SubjectId { get; set; }
 
         public virtual Semester? Semester { get; set; }

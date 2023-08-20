@@ -8,58 +8,74 @@
     DaysInWWeek.Add(5, "Thurs");
     DaysInWWeek.Add(6, "Fri");
     DaysInWWeek.Add(7, "Sat");
+
+    var i = 0;
 }
 <h1>Create Course</h1>
 <form method="post">
-    <input type="hidden" name="subjectId" value="@Model.SubjectId"/>
+    <input type="hidden"  name="subjectId" value="@Model.SubjectId" />
     <div class="d-flex p-2">
         <label>Course Name: </label>
-        <input type="text" asp-for="CourseName" name="courseName" />
+        <input type="text" asp-for="@Model.Course.CourseName" name="courseName" />
     </div>
+    <span asp-validation-for="Course.CourseName"></span>
     <div class="d-flex p-2">
         <label>Teacher: </label>
-        <select asp-for="TeacherId" name="teacherId">
+        <select asp-for="@Model.Course.TeacherId" name="teacherId">
             @foreach (var teacher in Model.Teachers)
             {
                 <option value="@teacher.Id">@teacher.TeacherName</option>
             }
         </select>
+        <span asp-validation-for="@Model.Course.TeacherId"></span>
     </div>
     <div class="d-flex p-2">
         <label>Semester: </label>
-        <select asp-for="SemesterId" name="semesterId">
+        <select asp-for="@Model.Course.SemesterId" name="semesterId">
             @foreach (var semester in Model.Semesters)
             {
                 <option value="@semester.Id">@semester.SemesterName</option>
             }
         </select>
+        <span asp-validation-for="@Model.Course.SemesterId"></span>
     </div>
     <div class="d-flex p-2">
         <label>Day(s) in week: </label>
+        @{
+            i = 0;
+        }
         @foreach (var day in DaysInWWeek)
         {
-            <input asp-for="selectedDaysInWeek" name="selectedDaysInWeek" type="checkbox" value="@day.Key" /> @day.Value
+            <input asp-for="selectedDaysInWeek[i]" name="selectedDaysInWeek" type="checkbox" value="@day.Key" /> @day.Value
 
             <br />
+            i++;
         }
+        <span asp-validation-for="@Model.selectedDaysInWeek"></span>
     </div>
     <div class="d-flex p-2">
         <label>Slot: </label>
+        @{
+            i = 0;
+        }
         @foreach (var slot in Model.Slots)
         {
-            <input asp-for="selectedSlots" name="selectedSlots" type="checkbox" value="@slot.Id" /> @slot.SlotNumber
+            <input asp-for="selectedSlots[i]" name="selectedSlots" type="checkbox" value="@slot.Id" /> @slot.SlotNumber
 
             <br />
+            i++;
         }
+        <span asp-validation-for="@Model.selectedSlots"></span>
     </div>
     <div class="d-flex p-2">
         <label>Room: </label>
-        <select name="roomId">
+        <select asp-for="RoomId" name="roomId">
             @foreach (var room in Model.Rooms)
             {
                 <option value="@room.Id">@room.RoomNumber</option>
             }
         </select>
+        <span asp-validation-for="@Model.RoomId"></span>
     </div>
     <div>
         <input type="submit" value="Create" />

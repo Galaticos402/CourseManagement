@@ -9,6 +9,7 @@ using CourseManagement.Repository.Teachers;
 using CourseManagement.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 
@@ -20,17 +21,19 @@ namespace CourseManagement.Pages.Admin.Course
         public IEnumerable<Models.Semester> Semesters = new List<Models.Semester>();
         public IEnumerable<Slot> Slots = new List<Slot>();
         public IEnumerable<Room> Rooms = new List<Room>();
+        [BindProperty]
         public int SubjectId { get; set; }
         [BindProperty]
-        public string CourseName { get; set; }
+        public Models.Course Course { get; set; }
         [BindProperty]
-        public int TeacherId { get; set; }
-        [BindProperty]
-        public int SemesterId { get; set; }
-        [BindProperty]
+        [Required]
         public List<string> selectedDaysInWeek { get; set; }
         [BindProperty]
+        [Required]
         public List<string> selectedSlots { get; set; }
+        [BindProperty]
+        [Required]
+        public int RoomId { get; set; }
 
         public readonly ISubjectRepository subjectRepository;
         public readonly ITeacherRepository teacherRepository;
@@ -49,71 +52,86 @@ namespace CourseManagement.Pages.Admin.Course
             this.roomRepository = roomRepository;
             this.courseRepository = courseRepository;
             this.sessionRepository = sessionRepository;
+
+
         }
 
         public async Task OnGet(int subjectId)
         {
+           await PopulateData(subjectId);
+        }
+        private async Task PopulateData(int subjectId)
+        {
             var subject = await subjectRepository.Get(subjectId);
-            SubjectId = subjectId;
             Slots = await slotRepository.GetAll();
-            
-            if(subject != null)
+            this.SubjectId = subjectId;
+            if (subject != null)
             {
                 int majorId = (int)(subject.MajorId != null ? subject.MajorId : -1);
-                if(majorId != -1)
+                if (majorId != -1)
                 {
                     Teachers = await teacherRepository.GetByMajorId(majorId);
-                    Semesters = await semesterRepository.GetAll();
-                    Rooms = await roomRepository.GetAll();
+
                 }
-                
+
             }
+            Slots = await slotRepository.GetAll();
+            Semesters = await semesterRepository.GetAll();
+            Rooms = await roomRepository.GetAll();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int subjectId)
         {
-            List<Session> generatedSession = new List<Session>();
-            var subjectId = int.Parse(Request.Form["SubjectId"]);
-            var courseName = Request.Form["courseName"];
-            var teacherId = int.Parse(Request.Form["teacherId"]);
-            var semesterId = int.Parse(Request.Form["semesterId"]);
-            List<string> selectedDaysInWeek = Request.Form["selectedDaysInWeek"].ToList();
-            List<string> selectedSlots = Request.Form["selectedSlots"].ToList();
-            var roomId = int.Parse(Request.Form["roomId"]);
-
-            Models.Course newCourse = new Models.Course(courseName, teacherId, semesterId, subjectId);
-            int courseId = await courseRepository.Create(newCourse);
-
-            if(courseId != -1)
+            //var subjectId = int.Parse(Request.Form["subjectId"]);
+            if (ModelState.IsValid)
             {
-                Models.Semester existingSemester = await semesterRepository.GetById(semesterId);
+                List<Session> generatedSession = new List<Session>();
+                var courseName = Request.Form["courseName"];
+                var teacherId = int.Parse(Request.Form["teacherId"]);
+                var semesterId = int.Parse(Request.Form["semesterId"]);
+                List<string> selectedDaysInWeek = Request.Form["selectedDaysInWeek"].ToList();
+                List<string> selectedSlots = Request.Form["selectedSlots"].ToList();
+                var roomId = int.Parse(Request.Form["roomId"]);
 
-                foreach (var dayInWeek in selectedDaysInWeek)
+                Models.Course newCourse = new Models.Course(courseName, teacherId, semesterId, subjectId);
+                int courseId = await courseRepository.Create(newCourse);
+
+                if (courseId != -1)
                 {
-                    List<DateTime> sessionDates = UtilityService.GetDatesBetweenTwoDates(existingSemester.StartDate, existingSemester.EndDate, int.Parse(dayInWeek));
-                    foreach (var sessionDate in sessionDates)
-                    {
-                        foreach (var slotId in selectedSlots)
-                        {
-                            Session newSession = new Session(courseId, teacherId,  roomId, int.Parse(slotId), sessionDate);
-                            generatedSession.Add(newSession);
-                        }
-                    }
+                    Models.Semester existingSemester = await semesterRepository.GetById(semesterId);
 
+                    foreach (var dayInWeek in selectedDaysInWeek)
+                    {
+                        List<DateTime> sessionDates = UtilityService.GetDatesBetweenTwoDates(existingSemester.StartDate, existingSemester.EndDate, int.Parse(dayInWeek));
+                        foreach (var sessionDate in sessionDates)
+                        {
+                            foreach (var slotId in selectedSlots)
+                            {
+                                Session newSession = new Session(courseId, teacherId, roomId, int.Parse(slotId), sessionDate);
+                                generatedSession.Add(newSession);
+                            }
+                        }
+
+                    }
+                    HttpStatusCode sessionStatusCode = await sessionRepository.CreateSessionsOfCouse(generatedSession);
+                    if (sessionStatusCode != HttpStatusCode.OK)
+                    {
+                        // Do something here
+                    }
                 }
-                HttpStatusCode sessionStatusCode = await sessionRepository.CreateSessionsOfCouse(generatedSession);
-                if(sessionStatusCode != HttpStatusCode.OK)
+                else
                 {
                     // Do something here
                 }
+
+
+
+                 return RedirectToPage("/Admin/Course/Index?subjectId=" + subjectId);
             }
             else
             {
-                // Do something here
+                await PopulateData(subjectId);
+                return Page();
             }
-
-            
-
-            return RedirectToPage("/Admin/Course/Index?subjectId="+subjectId);
-        }
+        }   
     }
 }
