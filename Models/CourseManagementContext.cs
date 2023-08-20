@@ -27,6 +27,7 @@ namespace CourseManagement.Models
         public virtual DbSet<Subject> Subjects { get; set; } = null!;
         public virtual DbSet<Teacher> Teachers { get; set; } = null!;
         public virtual DbSet<Admin> Admins { get; set; } = null!;
+        public virtual DbSet<Slot> Slots { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -127,8 +128,16 @@ namespace CourseManagement.Models
                     .WithMany(p => p.Sessions)
                     .HasForeignKey(d => d.TeacherId)
                     .HasConstraintName("fk_session_teacher_id");
-            });
 
+                entity.HasOne(d => d.Slot)
+                    .WithMany(p => p.Sessions)
+                    .HasForeignKey(d => d.SlotId)
+                    .HasConstraintName("fk_session_slot_id");
+            });
+            modelBuilder.Entity<Slot>(entity =>
+            {
+                entity.ToTable("Slot");
+            });
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.ToTable("Student");

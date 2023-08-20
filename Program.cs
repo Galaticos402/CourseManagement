@@ -3,7 +3,9 @@ using CourseManagement.Profiles;
 using CourseManagement.Repository.Admins;
 using CourseManagement.Repository.Courses;
 using CourseManagement.Repository.Majors;
+using CourseManagement.Repository.Rooms;
 using CourseManagement.Repository.Semesters;
+using CourseManagement.Repository.Slots;
 using CourseManagement.Repository.Students;
 using CourseManagement.Repository.StudentsRepo;
 using CourseManagement.Repository.Subjects;
@@ -26,6 +28,8 @@ builder.Services.AddTransient<ISemesterRepository, SemesterRepository>();
 builder.Services.AddTransient<IMajorRepository, MajorRepository>();
 builder.Services.AddTransient<ICourseRepository, CourseRepository>();
 builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
+builder.Services.AddTransient<IRoomRepository, RoomRepository>();
+builder.Services.AddTransient<ISlotRepository, SlotRepository>();
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {

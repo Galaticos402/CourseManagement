@@ -1,4 +1,5 @@
 ﻿using CourseManagement.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -22,6 +23,14 @@ namespace CourseManagement.Repository.Semesters
                 {
                     return HttpStatusCode.BadRequest;
                 }
+            }
+        }
+
+        public async Task<IEnumerable<Semester>> GetAll()
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Semesters.ToListAsync();
             }
         }
 

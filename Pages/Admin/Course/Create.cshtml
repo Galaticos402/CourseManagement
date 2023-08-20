@@ -1,0 +1,58 @@
+﻿@page
+@model CourseManagement.Pages.Admin.Course.CreateModel
+@{
+    IDictionary<int, string> DaysInWWeek = new Dictionary<int, string>();
+    DaysInWWeek.Add(2, "Mon");
+    DaysInWWeek.Add(3, "Tue");
+    DaysInWWeek.Add(4, "Wed");
+    DaysInWWeek.Add(5, "Thurs");
+    DaysInWWeek.Add(6, "Fri");
+    DaysInWWeek.Add(7, "Sat");
+}
+<h1>Create Course</h1>
+<form method="post">
+    <div class="d-flex p-2">
+        <label>Course Name: </label>
+        <input type="text" name="CourseName" />
+    </div>
+    <div class="d-flex p-2">
+        <label>Teacher: </label>
+        <select name="teacherId">
+            @foreach (var teacher in Model.Teachers)
+            {
+                <option value="@teacher.Id">@teacher.TeacherName</option>
+            }
+        </select>
+    </div>
+    <div class="d-flex p-2">
+        <label>Semester: </label>
+        <select name="semesterId">
+            @foreach (var semester in Model.Semesters)
+            {
+                <option value="@semester.Id">@semester.SemesterName</option>
+            }
+        </select>
+    </div>
+    <div class="d-flex p-2">
+        <label>Day(s) in week: </label>
+        @foreach (var day in DaysInWWeek)
+        {
+            <input name="SelectedDaysInWeek" type="checkbox" value="@day.Key" /> @day.Value
+
+            <br />
+        }
+    </div>
+    <div class="d-flex p-2">
+        <label>Slot: </label>
+        @foreach (var slot in Model.Slots)
+        {
+            <input name="SelectedSlots" type="checkbox" value="@slot.Id" /> @slot.SlotNumber
+
+            <br />
+        }
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+
+</form>

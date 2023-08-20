@@ -5,3 +5,44 @@
 }
 
 <h1>Course of a subject</h1>
+<div class="mt-2 mb-2">
+    <a class="btn btn-warning" href="/Admin/Course/Create?subjectId=@Model.subjectId">Add new course</a>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th class="align-middle text-center">No</th>
+        <th class="align-middle text-center">Course</th>
+        <th class="align-middle text-center">Subject</th>
+        <th class="align-middle text-center">Semester</th>
+        <th class="align-middle text-center">Teacher</th>
+        <th class="align-middle text-center">###</th>
+    </tr>
+    @foreach (var course in Model.Courses)
+    {
+        <tr>
+            <td class="align-middle text-center">@i</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => course.CourseName)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => course.Subject.SubjectName)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => course.Semester.SemesterName)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => course.Teacher.TeacherName)</td>
+            <td>
+                <div class="d-grid text-center">
+
+                    <div class="p-2">
+                        <a class="btn btn-primary" href="/Admin/Student/Update?id=@course.Id">Update</a>
+                    </div>
+
+
+                    <form method="post">
+                        <input type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@course.Id" value="Remove" onclick="return confirm('Are you sure you want to delete this?')" />
+                    </form>
+
+                </div>
+            </td>
+        </tr>
+        i++;
+    }
+
+
+
+</table>

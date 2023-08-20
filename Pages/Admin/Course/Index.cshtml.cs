@@ -8,13 +8,20 @@ namespace CourseManagement.Pages.Admin.Course
     {
         public readonly ICourseRepository courseRepository;
         public IEnumerable<Models.Course> Courses { get; set; } = new List<Models.Course>();
+        public int subjectId;
         public IndexModel(ICourseRepository courseRepository)
         {
             this.courseRepository = courseRepository;
         }
-        public async Task OnGet(int page = 1)
+        public async Task<IActionResult> OnGet(int page = 1, int subjectId = -1)
         {
-            Courses = await courseRepository.GetCoursesByPageNumber(page);
+            this.subjectId = subjectId;
+            if(subjectId == -1)
+            {
+                return Redirect("/Admin/Course");
+            }
+            Courses = await courseRepository.GetCourseByPageNumberAndSubjectId(page, subjectId);
+            return Page();
         }
     }
 }
