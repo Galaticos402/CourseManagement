@@ -31,16 +31,16 @@ namespace CourseManagement.Pages.Admin.Teacher
             if (SelectedTeacher != null)
             {
                 HttpStatusCode statusCode = await teacherRepository.Update(SelectedTeacher);
-                if (statusCode.Equals(HttpStatusCode.Created))
+                if (statusCode.Equals(HttpStatusCode.OK))
                 {
-                    //return RedirectToRoute("/Admin/Semester/Index");
+                    return RedirectToPage("/Admin/Teacher/Index");
                 }
             }
 
 
 
 
-            return RedirectToPage("/Admin/Teacher/Index");
+            return RedirectToPage("/Error");
         }
     }
 }

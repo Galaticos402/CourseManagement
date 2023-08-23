@@ -14,6 +14,7 @@ namespace CourseManagement.Pages.Admin.Subject
         public readonly IMajorRepository majorRepository;
         public readonly ISubjectRepository subjectRepository;
         public IEnumerable<Major> Majors { get; set; } = new List<Major>();
+        [BindProperty]
         public Models.Subject SelectedSubject { get; set; }
         public UpdateModel(IMajorRepository majorRepository, ISubjectRepository subjectRepository)
         {
@@ -28,28 +29,19 @@ namespace CourseManagement.Pages.Admin.Subject
         }
         public async Task<IActionResult> OnPost()
         {
-            var id = int.Parse(Request.Form["Id"]);
-            var subjectName = Request.Form["SubjectName"];
-            var code = Request.Form["Code"];
-            var majorId = int.Parse(Request.Form["MajorId"]);
-
-            SelectedSubject = await subjectRepository.Get(id);
-
             if (SelectedSubject != null)
             {
-                Models.Subject newSubject = new Models.Subject(subjectName, code,majorId);
-                newSubject.Id = id;
-                HttpStatusCode statusCode = await subjectRepository.Update(newSubject);
-                if (statusCode.Equals(HttpStatusCode.Created))
+                HttpStatusCode statusCode = await subjectRepository.Update(SelectedSubject);
+                if (statusCode.Equals(HttpStatusCode.OK))
                 {
-                    //return RedirectToRoute("/Admin/Semester/Index");
+                    return RedirectToPage("/Admin/Subject/Index");
                 }
             }
 
 
 
 
-            return RedirectToPage("/Admin/Subject/Index");
+            return RedirectToPage("/Error");
         }
     }
 }

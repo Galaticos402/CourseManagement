@@ -14,6 +14,7 @@ namespace CourseManagement.Pages.Admin.Student
     {
         public readonly IMajorRepository majorRepository;
         public readonly IStudentRepository studentRepository;
+        [BindProperty]
         public Models.Student Student { get; set; }
         public IEnumerable<Models.Major> Majors { get; set; } = new List<Models.Major>();
         public CreateModel(IMajorRepository majorRepository, IStudentRepository studentRepository) { 

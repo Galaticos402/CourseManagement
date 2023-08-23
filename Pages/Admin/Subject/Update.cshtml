@@ -7,20 +7,23 @@
     <input type="hidden" name="Id" value="@Model.SelectedSubject?.Id" />
     <div class="d-flex p-2">
         <label>Subject's Name: </label>
-        <input type="text" name="SubjectName" value="@Model.SelectedSubject?.SubjectName" />
+        <input type="text" asp-for="SelectedSubject.SubjectName" value="@Model.SelectedSubject?.SubjectName" />
+        <span class="text-danger" asp-validation-for="SelectedSubject.SubjectName"></span>
     </div>
     <div class="d-flex p-2">
         <label>Code: </label>
-        <input type="text" name="Code" value="@Model.SelectedSubject?.Code" />
+        <input type="text" asp-for="SelectedSubject.Code" value="@Model.SelectedSubject?.Code" />
+        <span class="text-danger" asp-validation-for="SelectedSubject.Code"></span>
     </div>
     <div class="d-flex p-2">
         <label>Major: </label>
-        <select name="MajorId">
+        <select asp-for="SelectedSubject.MajorId">
             @foreach (var major in Model.Majors)
             {
                 <option value="@major.Id" selected=@major.Id.Equals(@Model.SelectedSubject?.MajorId)>@major.MajorName</option>
             }
         </select>
+        <span class="text-danger" asp-validation-for="SelectedSubject.MajorId"></span>
     </div>
     <div>
         <input type="submit" value="Update" />

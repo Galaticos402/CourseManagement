@@ -28,7 +28,7 @@ namespace CourseManagement.Pages.Admin.Student
             if(SelectedStudent != null)
             {
                 HttpStatusCode statusCode = await studentRepository.Update(SelectedStudent);
-                if (statusCode.Equals(HttpStatusCode.Created))
+                if (statusCode.Equals(HttpStatusCode.OK))
                 {
                     return RedirectToPage("/Admin/Student/Index");
                 }
