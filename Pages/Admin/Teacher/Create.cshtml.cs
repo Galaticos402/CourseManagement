@@ -13,6 +13,8 @@ namespace CourseManagement.Pages.Admin.Teacher
     {
         public readonly IMajorRepository majorRepository;
         public readonly ITeacherRepository teacherRepository;
+        [BindProperty]
+        public Models.Teacher Teacher { get; set; }
 
         public IEnumerable<Models.Major> Majors { get; set; } = new List<Models.Major>();
         public CreateModel(IMajorRepository majorRepository, ITeacherRepository teacherRepository)
@@ -27,25 +29,21 @@ namespace CourseManagement.Pages.Admin.Teacher
         }
         public async Task<IActionResult> OnPost()
         {
-            var teacherName = Request.Form["TeacherName"];
-            var email = Request.Form["Email"];
-            var phone = Request.Form["Phone"];
-            var majorId = int.Parse(Request.Form["MajorId"]);
             // Generate default password
             var password = UtilityService.GenerateRandomPassword();
 
 
 
-            Models.Teacher newTeacher = new Models.Teacher(teacherName, email, password, phone, majorId);
-            HttpStatusCode statusCode = await teacherRepository.Create(newTeacher);
+            this.Teacher.Pwd = password;
+            HttpStatusCode statusCode = await teacherRepository.Create(this.Teacher);
 
             if (statusCode.Equals(HttpStatusCode.Created))
             {
-                //return RedirectToRoute("/Admin/Semester/Index");
+                return RedirectToPage("/Admin/Teacher/Index");
             }
 
 
-            return RedirectToPage("/Admin/Teacher/Index");
+            return RedirectToPage("/Error");
         }
     }
 }

@@ -42,6 +42,7 @@ namespace CourseManagement.Pages.Login
                 {
                     var token = await jwtService.GenerateToken(existedStudent, "Student");
                     HttpContext.Session.SetString("Token", token);
+                    HttpContext.Session.SetInt32("User", existedStudent.Id);
                     return RedirectToPage("/Student/Index");
                 }
             }
@@ -53,6 +54,7 @@ namespace CourseManagement.Pages.Login
                 {
                     var token = await jwtService.GenerateToken(existedTeacher, "Teacher");
                     HttpContext.Session.SetString("Token", token);
+                    HttpContext.Session.SetInt32("User", existedTeacher.Id);
                     return RedirectToPage("/Teacher/Index");
                 }
             }

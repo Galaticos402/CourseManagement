@@ -12,6 +12,7 @@
     var i = 0;
 }
 <h1>Create Course</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
 <form method="post">
     <input type="hidden"  name="subjectId" value="@Model.SubjectId" />
     <div class="d-flex p-2">
@@ -46,7 +47,7 @@
         }
         @foreach (var day in DaysInWWeek)
         {
-            <input asp-for="selectedDaysInWeek[i]" name="selectedDaysInWeek" type="checkbox" value="@day.Key" /> @day.Value
+            <input name="selectedDaysInWeek" type="checkbox" value="@day.Key" /> @day.Value
 
             <br />
             i++;
@@ -60,7 +61,7 @@
         }
         @foreach (var slot in Model.Slots)
         {
-            <input asp-for="selectedSlots[i]" name="selectedSlots" type="checkbox" value="@slot.Id" /> @slot.SlotNumber
+            <input name="selectedSlots" type="checkbox" value="@slot.Id" /> @slot.SlotNumber
 
             <br />
             i++;

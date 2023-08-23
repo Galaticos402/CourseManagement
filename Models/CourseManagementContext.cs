@@ -161,9 +161,6 @@ namespace CourseManagement.Models
             {
                 entity.ToTable("StudentInCourse");
 
-                entity.Property(e => e.MajorName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.StudentInCourses)

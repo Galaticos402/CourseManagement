@@ -35,7 +35,7 @@ builder.Services.AddTransient<ISessionRepository, SessionRepository>();
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AddPageRoute("/Admin/Index", "");
+    options.Conventions.AddPageRoute("/Login/Index", "");
 });
 
 // Add Mapper Configuration

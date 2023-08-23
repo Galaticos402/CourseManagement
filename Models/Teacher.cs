@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseManagement.Models
 {
@@ -21,7 +22,10 @@ namespace CourseManagement.Models
 
         }
         public int Id { get; set; }
+        [Required]
         public string TeacherName { get; set; } = null!;
+        [Required]
+        [RegularExpression("^(84|0[3|5|7|8|9])+([0-9]{8})$", ErrorMessage = "Invalid Phone number")]
         public string? Phone { get; set; }
         public int MajorId { get; set; }
 

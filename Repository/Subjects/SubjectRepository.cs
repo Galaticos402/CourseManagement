@@ -1,4 +1,5 @@
 ﻿using CourseManagement.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -66,6 +67,28 @@ namespace CourseManagement.Repository.Subjects
                     return HttpStatusCode.BadGateway;
                 }
             }
+        }
+
+        public async Task<IEnumerable<Subject>> GetByMajorId(int majorId)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                return await dbContext.Subjects.Where(s => s.MajorId.Equals(majorId)).ToListAsync();
+            };
+        }
+
+        public async Task<List<int?>> GetRegisteredSubjectOfAStudent(int? studentId)
+        {
+            List<int?> subjectIds = new List<int?>();
+            using (var dbContext = new CourseManagementContext())
+            {
+                List<StudentInCourse> stdInCourse = await dbContext.StudentInCourses.Where(std => std.StudentId.Equals(studentId)).Include(std => std.Course).ToListAsync();
+                foreach (var studentInCourse in stdInCourse) {
+                    Course c = studentInCourse.Course;
+                    subjectIds.Add(c.SubjectId);
+                }
+                return subjectIds;
+            };
         }
     }
 }

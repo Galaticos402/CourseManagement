@@ -84,6 +84,7 @@ namespace CourseManagement.Pages.Admin.Course
             //var subjectId = int.Parse(Request.Form["subjectId"]);
             if (ModelState.IsValid)
             {
+
                 List<Session> generatedSession = new List<Session>();
                 var courseName = Request.Form["courseName"];
                 var teacherId = int.Parse(Request.Form["teacherId"]);
@@ -106,6 +107,13 @@ namespace CourseManagement.Pages.Admin.Course
                         {
                             foreach (var slotId in selectedSlots)
                             {
+                                bool isValid = await HasAvailableSession(roomId, int.Parse(slotId), sessionDate);
+                                if (!isValid)
+                                {
+                                    ModelState.AddModelError("All", "Another session occurs in a same room, slot and day");
+                                    await PopulateData(subjectId);
+                                    return Page();
+                                }
                                 Session newSession = new Session(courseId, teacherId, roomId, int.Parse(slotId), sessionDate);
                                 generatedSession.Add(newSession);
                             }
@@ -125,13 +133,19 @@ namespace CourseManagement.Pages.Admin.Course
 
 
 
-                 return RedirectToPage("/Admin/Course/Index?subjectId=" + subjectId);
+                 return Redirect("/Admin/Course/Index?subjectId=" + subjectId);
             }
             else
             {
                 await PopulateData(subjectId);
                 return Page();
             }
-        }   
+        }
+        private async Task<bool> HasAvailableSession(int roomId, int slotId, DateTime date)
+        {
+            
+            return await sessionRepository.SessionHasExistedByRoomSlotDate(roomId, slotId, date);
+           
+        }
     }
 }

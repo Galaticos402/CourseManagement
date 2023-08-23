@@ -1,19 +1,22 @@
 ﻿@page
-@model CourseManagement.Pages.Home.Curriculum.IndexModel
+@model CourseManagement.Pages.Student.Curriculum.IndexModel
 @{
+    var i = 1;
 }
 <h1>Curriculum</h1>
 <table class="table table-bordered table-striped">
     <tr>
-        <th>No</th>
-        <th>Subject Code</th>
-        <th>Subject Name</th>
-        <th>Term</th>
+        <th class="align-middle text-center">No</th>
+        <th class="align-middle text-center">Subject's Name</th>
+        <th class="align-middle text-center">Code</th>
     </tr>
-    <tr>
-        <td>1</td>
-        <td>GDQP</td>
-        <td>Military Education</td>
-        <td>0</td>
-    </tr>
+    @foreach (var subject in Model.Subjects)
+    {
+        <tr>
+            <td class="align-middle text-center">@i</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => subject.SubjectName)</td>
+            <td class="align-middle text-center">@Html.DisplayFor(model => subject.Code)</td>
+        </tr>
+        i++;
+    }
 </table>

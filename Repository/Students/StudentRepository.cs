@@ -51,7 +51,7 @@ namespace CourseManagement.Repository.Students
             }
         }
 
-        public async Task<Student?> Get(int studentId)
+        public async Task<Student?> Get(int? studentId)
         {
             using(var dbContext = new CourseManagementContext())
             {
@@ -72,6 +72,19 @@ namespace CourseManagement.Repository.Students
             using (var dbContext = new CourseManagementContext())
             {
                 return await dbContext.Students.Skip(itemPerPage * (page - 1)).Take(itemPerPage).Include(std => std.Major).ToListAsync();
+            }
+        }
+
+        public async Task<HttpStatusCode> RegisterCourse(int? studentId, int courseId)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                StudentInCourse stdInCourse = new StudentInCourse();
+                stdInCourse.StudentId = studentId;
+                stdInCourse.CourseId = courseId;
+                dbContext.StudentInCourses.Add(stdInCourse);
+                await dbContext.SaveChangesAsync();
+                return HttpStatusCode.Created;
             }
         }
 

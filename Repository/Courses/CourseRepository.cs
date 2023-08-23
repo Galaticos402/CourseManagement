@@ -46,5 +46,23 @@ namespace CourseManagement.Repository.Courses
 
             }
         }
+
+        public async Task<List<Course>> GetAllCoursesOfASubject(int subjectId)
+        {
+            using (var dbContext = new CourseManagementContext())
+            {
+                try
+                {
+                    return await dbContext.Courses.Where(c => c.SubjectId.Equals(subjectId)).ToListAsync();
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+
+            }
+        }
+
+       
     }
 }
