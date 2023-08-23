@@ -1,3 +1,4 @@
+using CourseManagement.Models;
 using CourseManagement.Repository.Majors;
 using CourseManagement.Repository.Semesters;
 using CourseManagement.Repository.StudentsRepo;
@@ -13,6 +14,7 @@ namespace CourseManagement.Pages.Admin.Student
     {
         public readonly IMajorRepository majorRepository;
         public readonly IStudentRepository studentRepository;
+        public Models.Student Student { get; set; }
         public IEnumerable<Models.Major> Majors { get; set; } = new List<Models.Major>();
         public CreateModel(IMajorRepository majorRepository, IStudentRepository studentRepository) { 
             this.majorRepository = majorRepository;
@@ -25,25 +27,20 @@ namespace CourseManagement.Pages.Admin.Student
 
         public async Task<IActionResult> OnPost()
         {
-            var studentName = Request.Form["StudentName"];
-            var email = Request.Form["Email"];
-            var phone = Request.Form["Phone"];
-            var majorId = int.Parse(Request.Form["MajorId"]);
+           
             // Generate default password
             var password = UtilityService.GenerateRandomPassword();
             
-
-
-            Models.Student newStudent = new Models.Student(studentName, email, password, phone, majorId);
-            HttpStatusCode statusCode = await studentRepository.Create(newStudent);
+            this.Student.Pwd = password;
+            HttpStatusCode statusCode = await studentRepository.Create(this.Student);
 
             if (statusCode.Equals(HttpStatusCode.Created))
             {
-                //return RedirectToRoute("/Admin/Semester/Index");
+                return RedirectToPage("/Admin/Student/Index");
             }
 
 
-            return RedirectToPage("/Admin/Student/Index");
+            return RedirectToPage("/Error");
         }
     }
 }

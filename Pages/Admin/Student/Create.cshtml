@@ -6,24 +6,28 @@
 <form method="post">
     <div class="d-flex p-2">
         <label>Student's Name: </label>
-        <input type="text" name="StudentName" />
+        <input type="text" asp-for="Student.StudentName" />
+        <span class="text-danger" asp-validation-for="Student.StudentName"></span>
     </div>
     <div class="d-flex p-2">
         <label>Email: </label>
-        <input type="email" name="Email" />
+        <input type="email" asp-for="Student.Email"  />
+        <span class="text-danger" asp-validation-for="Student.Email"></span>
     </div>
     <div class="d-flex p-2">
         <label>Phone</label>
-        <input type="text" name="Phone" />
+        <input type="text" asp-for="Student.Phone" />
+        <span class="text-danger" asp-validation-for="Student.Phone"></span>
     </div>
     <div class="d-flex p-2">
         <label>Major: </label>
-        <select name="MajorId">
+        <select asp-for="Student.MajorId">
             @foreach(var major in Model.Majors)
             {
                 <option value="@major.Id">@major.MajorName</option>
             }
         </select>
+        <span class="text-danger" asp-validation-for="Student.MajorId"></span>
     </div>
     <div>
         <input type="submit" value="Create" />
