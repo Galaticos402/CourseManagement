@@ -1,9 +1,12 @@
 using CourseManagement.Repository.StudentsRepo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 
 namespace CourseManagement.Pages.Admin.Student
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         public readonly IStudentRepository studentRepository;

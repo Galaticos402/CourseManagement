@@ -10,6 +10,7 @@ using System;
 
 namespace CourseManagement.Pages.Student.Register
 {
+    [Authorize(Roles = "Student")]
     public class IndexModel : PageModel
     {
         public readonly ISubjectRepository subjectRepository;

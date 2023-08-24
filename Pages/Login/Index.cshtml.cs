@@ -3,12 +3,14 @@ using CourseManagement.Repository.Admins;
 using CourseManagement.Repository.StudentsRepo;
 using CourseManagement.Repository.Teachers;
 using CourseManagement.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CourseManagement.Pages.Login
 {
     [BindProperties]
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
         public readonly IJWTService jwtService;

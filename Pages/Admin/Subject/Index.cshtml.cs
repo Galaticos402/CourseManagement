@@ -1,11 +1,14 @@
 using CourseManagement.Models;
 using CourseManagement.Repository.Students;
 using CourseManagement.Repository.Subjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 
 namespace CourseManagement.Pages.Admin.Subject
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         public readonly ISubjectRepository subjectRepository;

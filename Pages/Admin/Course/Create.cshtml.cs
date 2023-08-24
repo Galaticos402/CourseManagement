@@ -7,14 +7,17 @@ using CourseManagement.Repository.Slots;
 using CourseManagement.Repository.Subjects;
 using CourseManagement.Repository.Teachers;
 using CourseManagement.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Net;
 
 namespace CourseManagement.Pages.Admin.Course
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         public IEnumerable<Models.Teacher> Teachers = new List<Models.Teacher>();

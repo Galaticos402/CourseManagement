@@ -3,12 +3,15 @@ using CourseManagement.Repository.Majors;
 using CourseManagement.Repository.Students;
 using CourseManagement.Repository.StudentsRepo;
 using CourseManagement.Repository.Subjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 using System.Net;
 
 namespace CourseManagement.Pages.Admin.Subject
 {
+    [Authorize(Roles = "Admin")]
     public class UpdateModel : PageModel
     {
         public readonly IMajorRepository majorRepository;

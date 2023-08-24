@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 
-namespace CourseManagement.Pages.Admin
+namespace CourseManagement.Pages.Teacher.Attendance
 {
+    [Authorize(Roles = "Teacher")]
     public class IndexModel : PageModel
     {
-        [Authorize(Roles = "Admin")]
         public void OnGet()
         {
         }
